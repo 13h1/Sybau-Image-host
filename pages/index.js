@@ -287,7 +287,7 @@ export default function Home() {
           disabled={loading}
           className="upload-button"
         >
-          {loading ? 'Uploader en cours...' : 'Uploader l\'Image'} {/* Cette apostrophe était déjà correcte */}
+          {loading ? 'Uploader en cours...' : 'Uploader l&apos;Image'}
         </button>
       </form>
 
