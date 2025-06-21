@@ -272,7 +272,7 @@ export default function Home() {
             id="customName"
             value={customName}
             onChange={(e) => setCustomName(e.target.value)}
-            placeholder="Ex: 13h1 est un bon dev 💀"
+            placeholder="Ex: 13h1 est un bon dev..."
           />
         </div>
 
