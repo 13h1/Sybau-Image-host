@@ -1,0 +1,503 @@
+/* styles/globals.css */
+
+
+:root {
+  
+  --bg-color: #f4f7f6;
+  --container-bg: #ffffff;
+  --text-color: #333;
+  --heading-color: #2c3e50;
+  --border-color: #e0e0e0;
+  --input-border-color: #ccc;
+  --input-focus-ring: #3498db;
+  --button-bg: #3498db;
+  --button-hover-bg: #2980b9;
+  --button-disabled-bg: #cccccc;
+  --error-color: #e74c3c;
+  --link-color: #3498db;
+  --copy-button-bg: #27ae60;
+  --copy-button-hover-bg: #229a54;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --image-shadow-color: rgba(0, 0, 0, 0.08);
+  --theme-toggle-bg: #f0f0f0;
+  --theme-toggle-text: #333;
+  --theme-toggle-hover-bg: #e0e0e0;
+  --title-gradient-start: #3498db; 
+  --title-gradient-end: #2980b9; 
+
+  
+  --turntable-base-bg: #e0e0e0;
+  --turntable-arm-color: #888;
+  --turntable-disc-shadow: rgba(0, 0, 0, 0.2);
+  --turntable-control-bg: #f0f0f0;
+  --turntable-control-button-bg: #ccc;
+  --turntable-control-button-hover-bg: #bbb;
+  --turntable-control-text: #333;
+  --turntable-progress-fill: #3498db;
+  --turntable-progress-track: #ddd;
+}
+
+
+html[data-theme='dark'] {
+  --bg-color: #1a1a1a; 
+  --container-bg: #222222; 
+  --text-color: #e0e0e0; 
+  --heading-color: #f0f0f0; 
+  --border-color: #444444; 
+  --input-border-color: #555555;
+  --input-focus-ring: #6cb6f7;
+  --button-bg: #4a90e2; 
+  --button-hover-bg: #357bd8;
+  --button-disabled-bg: #333333;
+  --error-color: #ff8888; 
+  --link-color: #88bbff; 
+  --copy-button-bg: #28a745; 
+  --copy-button-hover-bg: #218838;
+  --shadow-color: rgba(0, 0, 0, 0.5); 
+  --image-shadow-color: rgba(0, 0, 0, 0.4);
+  --theme-toggle-bg: #333333;
+  --theme-toggle-text: #f0f0f0;
+  --theme-toggle-hover-bg: #444444;
+  --title-gradient-start: #6cb6f7; 
+  --title-gradient-end: #4a90e2; 
+
+  /* Variables pour les contrôles audio en mode sombre */
+  --turntable-base-bg: #3a3a3a;
+  --turntable-arm-color: #bbb;
+  --turntable-disc-shadow: rgba(0, 0, 0, 0.6);
+  --turntable-control-bg: #2a2a2a;
+  --turntable-control-button-bg: #444;
+  --turntable-control-button-hover-bg: #555;
+  --turntable-control-text: #e0e0e0;
+  --turntable-progress-fill: #88bbff;
+  --turntable-progress-track: #555;
+}
+
+/* Styles de base pour le corps et la police */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Container principal de l'application */
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: var(--container-bg);
+  border-radius: 10px;
+  box-shadow: 0 4px 15px var(--shadow-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+/* Titre stylisé */
+.sybau-title {
+  text-align: center;
+  font-size: 2.8em; /* Plus grand */
+  font-weight: 800; /* Plus gras */
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--border-color);
+  
+  /* Dégradé de texte */
+  background: linear-gradient(45deg, var(--title-gradient-start), var(--title-gradient-end));
+  -webkit-background-clip: text; /* Pour appliquer le dégradé au texte */
+  -webkit-text-fill-color: transparent; /* Rend le texte transparent pour voir le dégradé */
+  color: transparent; /* Fallback for browsers that don't support -webkit-text-fill-color */
+  
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Petite ombre pour la profondeur */
+  transition: all 0.3s ease; /* Transition pour le changement de thème */
+}
+
+
+/* Styles pour les groupes de formulaire */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+input[type="text"],
+input[type="file"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  font-size: 1em;
+  box-sizing: border-box;
+  background-color: var(--container-bg);
+  color: var(--text-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+  outline: none;
+  border-color: var(--input-focus-ring);
+  box-shadow: 0 0 0 2px var(--input-focus-ring);
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+/* Style pour le bouton Uploader */
+.upload-button {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
+  background-color: var(--button-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 25px;
+}
+
+.upload-button:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.upload-button:disabled {
+  background-color: var(--button-disabled-bg);
+  cursor: not-allowed;
+}
+
+/* Messages d'erreur */
+.error-message {
+  color: var(--error-color);
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+/* Section des résultats après upload */
+.results-section {
+  margin-top: 30px;
+  padding-top: 25px;
+  border-top: 1px dashed var(--border-color);
+  transition: border-color 0.3s ease;
+}
+
+.results-section h3 {
+  font-size: 1.5em;
+  color: var(--heading-color);
+  margin-bottom: 15px;
+  transition: color 0.3s ease;
+}
+
+.uploaded-link {
+  display: block;
+  word-break: break-all;
+  color: var(--link-color);
+  text-decoration: none;
+  margin-bottom: 15px;
+  font-size: 0.95em;
+  transition: color 0.3s ease;
+}
+
+.uploaded-link:hover {
+  text-decoration: underline;
+}
+
+/* Bouton Copier */
+.copy-button {
+  padding: 10px 18px;
+  background-color: var(--copy-button-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.copy-button:hover {
+  background-color: var(--copy-button-hover-bg);
+}
+
+/* Aperçu de l'image */
+.image-preview {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 25px auto 0 auto;
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px var(--image-shadow-color);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Jour-nuit */
+.theme-toggle-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 8px 12px;
+  background-color: var(--theme-toggle-bg);
+  color: var(--theme-toggle-text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.5em; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-button:hover {
+  background-color: var(--theme-toggle-hover-bg);
+}
+
+/* --- tourne-disque --- */
+
+.turntable-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px auto 40px auto;
+  padding: 20px;
+  background-color: var(--turntable-control-bg);
+  border-radius: 15px;
+  box-shadow: 0 5px 20px var(--shadow-color);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.turntable-base {
+  width: 250px;
+  height: 250px;
+  background-color: var(--turntable-base-bg);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+  margin-bottom: 20px;
+}
+
+.turntable-disc {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 15px var(--turntable-disc-shadow);
+  transition: transform 0.1s linear;
+}
+
+.disc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.turntable-disc.spinning {
+  animation: spin 3s linear infinite;
+}
+
+.turntable-arm {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  width: 80px;
+  height: 10px;
+  background-color: var(--turntable-arm-color);
+  border-radius: 5px;
+  transform-origin: 0% 50%;
+  transform: rotate(20deg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* Contrôles du tourne-disque */
+.turntable-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  padding: 15px;
+  background-color: var(--turntable-control-bg);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  color: var(--turntable-control-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.song-info p {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 15px;
+  text-align: center;
+  color: var(--heading-color);
+}
+
+.playback-buttons {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.control-button {
+  background-color: var(--turntable-control-button-bg);
+  color: var(--turntable-control-text);
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  font-size: 1.2em;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.control-button:hover {
+  background-color: var(--turntable-control-button-hover-bg);
+}
+
+.play-pause-button {
+  width: 55px;
+  height: 55px;
+  font-size: 1.5em;
+}
+
+.progress-bar-container {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  gap: 10px;
+  font-size: 0.9em;
+  margin-bottom: 15px; 
+}
+
+.progress-bar {
+  flex-grow: 1;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--turntable-progress-track);
+  border-radius: 5px;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.progress-bar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--turntable-progress-fill);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.progress-bar::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--turntable-progress-fill);
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s ease;
+}
+
+.progress-bar::-webkit-slider-runnable-track {
+  background: var(--turntable-progress-track);
+  border-radius: 5px;
+}
+
+.progress-bar::-moz-range-track {
+  background: var(--turntable-progress-track);
+  border-radius: 5px;
+}
+
+/* --- skin de la barre de volume --- */
+.volume-control-container {
+    display: flex;
+    align-items: center;
+    width: 90%;
+    gap: 10px;
+    font-size: 0.9em;
+    color: var(--turntable-control-text);
+}
+
+.volume-bar {
+    flex-grow: 1;
+    height: 8px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--turntable-progress-track); 
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--turntable-progress-fill); 
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease;
+}
+
+.volume-bar::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--turntable-progress-fill);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    transition: background 0.3s ease;
+}
+
+.volume-bar::-webkit-slider-runnable-track {
+  background: var(--turntable-progress-track);
+  border-radius: 5px;
+}
+
+.volume-bar::-moz-range-track {
+  background: var(--turntable-progress-track);
+  border-radius: 5px;
+}
