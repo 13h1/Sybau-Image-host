@@ -212,7 +212,7 @@ export default function Home() {
               &#9664;&#9664; {/* Double flèche gauche */}
             </button>
             <button onClick={handlePlayPause} className="control-button play-pause-button">
-              {isPlaying ? '❚❚' : '▶️'} Pause ou Play&apos;? {/* Correction 2: Apostrophe échappée */}
+              {isPlaying ? '❚❚' : '▶️'} Pause ou Play &apos;? 
             </button>
             <button onClick={handleNextSong} className="control-button">
               &#9654;&#9654; {/* Double flèche droite */}
