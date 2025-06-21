@@ -1,6 +1,7 @@
 // pages/index.js
 
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image'; // Importation du composant Image de Next.js
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -28,64 +29,62 @@ export default function Home() {
   const toggleTheme = () => {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
   };
-  // --- Fin  du thème ---
+  // --- Fin du thème ---
 
   // --- Tourne-Disque ---
-  const audioRef = useRef(null); 
-  const [isPlaying, setIsPlaying] = useState(false); 
-  const [currentTime, setCurrentTime] = useState(0); 
-  const [duration, setDuration] = useState(0); 
-  const [volume, setVolume] = useState(0.7); 
+  const audioRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [volume, setVolume] = useState(0.7);
 
-  const audioFiles = [ 
-    { name: 'Bekamine', src: '/audio/Bekamine.mp3', discImage: '/discs/55asky.png' }, 
-    { name: 'UET', src: '/audio/uet.mp3', discImage: '/discs/Luther.png' },             
-    
+  const audioFiles = [
+    { name: 'Bekamine', src: '/audio/Bekamine.mp3', discImage: '/discs/55asky.png' },
+    { name: 'UET', src: '/audio/uet.mp3', discImage: '/discs/Luther.png' },
+    // Ajoute autant de fichiers que tu veux ici
   ];
 
-  const [currentAudioIndex, setCurrentAudioIndex] = useState(0); 
-  const currentAudio = audioFiles[currentAudioIndex]; 
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(0);
+  const currentAudio = audioFiles[currentAudioIndex];
 
-  
+  // Correction 1: Ajout de 'isPlaying' aux dépendances du useEffect à la ligne 88 (dans les logs)
   useEffect(() => {
     const audio = audioRef.current;
-    if (audio) { 
-        audio.volume = volume; 
+    if (audio) {
+      audio.volume = volume;
 
-        const setAudioData = () => {
-          setDuration(audio.duration);
-          setCurrentTime(audio.currentTime);
-        };
+      const setAudioData = () => {
+        setDuration(audio.duration);
+        setCurrentTime(audio.currentTime);
+      };
 
-        const setAudioTime = () => setCurrentTime(audio.currentTime);
-        const togglePlayPause = () => setIsPlaying(!audio.paused);
+      const setAudioTime = () => setCurrentTime(audio.currentTime);
+      const togglePlayPause = () => setIsPlaying(!audio.paused);
 
-        audio.addEventListener('loadeddata', setAudioData);
-        audio.addEventListener('timeupdate', setAudioTime);
-        audio.addEventListener('play', togglePlayPause);
-        audio.addEventListener('pause', togglePlayPause);
-        audio.addEventListener('ended', () => setIsPlaying(false)); 
+      audio.addEventListener('loadeddata', setAudioData);
+      audio.addEventListener('timeupdate', setAudioTime);
+      audio.addEventListener('play', togglePlayPause);
+      audio.addEventListener('pause', togglePlayPause);
+      audio.addEventListener('ended', () => setIsPlaying(false));
 
-        
-        return () => {
-          audio.removeEventListener('loadeddata', setAudioData);
-          audio.removeEventListener('timeupdate', setAudioTime);
-          audio.removeEventListener('play', togglePlayPause);
-          audio.removeEventListener('pause', togglePlayPause);
-          audio.removeEventListener('ended', () => setIsPlaying(false));
-        };
+      return () => {
+        audio.removeEventListener('loadeddata', setAudioData);
+        audio.removeEventListener('timeupdate', setAudioTime);
+        audio.removeEventListener('play', togglePlayPause);
+        audio.removeEventListener('pause', togglePlayPause);
+        audio.removeEventListener('ended', () => setIsPlaying(false));
+      };
     }
-  }, [volume]);
+  }, [volume, isPlaying]); // <-- 'isPlaying' ajouté ici
 
-  
   useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.load(); 
-      if (isPlaying) { 
+      audioRef.current.load();
+      if (isPlaying) {
         audioRef.current.play();
       }
     }
-  }, [currentAudioIndex]); 
+  }, [currentAudioIndex, isPlaying]); // Ajout de 'isPlaying' ici aussi pour s'assurer que la lecture est déclenchée lors du changement d'audio si 'isPlaying' est vrai
 
   const handlePlayPause = () => {
     const audio = audioRef.current;
@@ -103,30 +102,28 @@ export default function Home() {
     setCurrentTime(audio.currentTime);
   };
 
-  
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  
   const handleVolumeChange = (event) => {
     const newVolume = parseFloat(event.target.value);
     if (audioRef.current) {
-        audioRef.current.volume = newVolume;
+      audioRef.current.volume = newVolume;
     }
     setVolume(newVolume);
   };
 
   const handleNextSong = () => {
     setCurrentAudioIndex((prevIndex) => (prevIndex + 1) % audioFiles.length);
-    setIsPlaying(true); 
+    setIsPlaying(true);
   };
 
   const handlePrevSong = () => {
     setCurrentAudioIndex((prevIndex) => (prevIndex - 1 + audioFiles.length) % audioFiles.length);
-    setIsPlaying(true); 
+    setIsPlaying(true);
   };
   // --- Fin logique du lecteur audio ---
 
@@ -178,22 +175,30 @@ export default function Home() {
 
   return (
     <div className="container">
-      {}
+      {/* Bouton de bascule du thème */}
       <button onClick={toggleTheme} className="theme-toggle-button">
-        {theme === 'light' ? '🌙' : '☀️'} {}
+        {theme === 'light' ? '🌙' : '☀️'} {/* Émojis directement acceptés ici */}
       </button>
 
-      {}
+      {/* Titre */}
       <h1 className="sybau-title">Sybau Imager</h1>
 
       {/* --- DÉBUT DU LECTEUR AUDIO (TOURNE-DISQUE) --- */}
       <div className="turntable-container">
-        {}
+        {/* Le lecteur audio HTML5, réel, masqué */}
         <audio ref={audioRef} src={currentAudio.src} preload="auto" />
 
         <div className="turntable-base">
           <div className={`turntable-disc ${isPlaying ? 'spinning' : ''}`}>
-            <img src={currentAudio.discImage} alt="Disc" className="disc-image" />
+            {/* Correction 3: Utilisation du composant Image de Next.js */}
+            <Image
+              src={currentAudio.discImage}
+              alt="Disc"
+              className="disc-image"
+              width={200} // Remplacez par la largeur de votre image de disque
+              height={200} // Remplacez par la hauteur de votre image de disque
+              priority // Pour le chargement rapide de l'image visible
+            />
           </div>
           <div className="turntable-arm"></div>
         </div>
@@ -204,17 +209,17 @@ export default function Home() {
           </div>
           <div className="playback-buttons">
             <button onClick={handlePrevSong} className="control-button">
-              &#9664;&#9664; {}
+              &#9664;&#9664; {/* Double flèche gauche */}
             </button>
             <button onClick={handlePlayPause} className="control-button play-pause-button">
-              {isPlaying ? '❚❚' : '▶️'} Pause ou Play &apos;?
+              {isPlaying ? '❚❚' : '▶️'} Pause ou Play&apos;? {/* Correction 2: Apostrophe échappée */}
             </button>
             <button onClick={handleNextSong} className="control-button">
-              &#9654;&#9654; {}
+              &#9654;&#9654; {/* Double flèche droite */}
             </button>
           </div>
           <div className="progress-bar-container">
-            {}
+            {/* Barre de progression */}
             <span>{formatTime(currentTime)}</span>
             <input
               type="range"
@@ -228,21 +233,21 @@ export default function Home() {
           </div>
           {/* Nouvelle barre de volume */}
           <div className="volume-control-container">
-              <span>Vol:</span>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                value={volume}
-                onChange={handleVolumeChange}
-                className="volume-bar"
-              />
+            <span>Vol:</span>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+              className="volume-bar"
+            />
           </div>
         </div>
       </div>
       {/* --- FIN DU LECTEUR AUDIO (TOURNE-DISQUE) --- */}
-      
+
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="image">Image :</label>
@@ -272,16 +277,17 @@ export default function Home() {
             id="customName"
             value={customName}
             onChange={(e) => setCustomName(e.target.value)}
-            placeholder="Ex: 13h1 est un bon dev..."
+            // Correction 4: Émoji crâne échappé
+            placeholder="Ex: 13h1 est un bon dev &#128128;"
           />
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="upload-button" 
+          className="upload-button"
         >
-          {loading ? 'Uploader en cours...' : 'Uploader l\'Image'}
+          {loading ? 'Uploader en cours...' : 'Uploader l\'Image'} {/* Cette apostrophe était déjà correcte */}
         </button>
       </form>
 
@@ -306,10 +312,14 @@ export default function Home() {
           </button>
 
           <h3>Aperçu :</h3>
-          <img
+          {/* Correction 5: Utilisation du composant Image de Next.js */}
+          <Image
             src={uploadedUrl}
             alt="Image uploadée"
             className="image-preview"
+            width={600} // Largeur d'exemple, ajustez selon vos besoins
+            height={400} // Hauteur d'exemple, ajustez selon vos besoins
+            objectFit="contain" // Pour que l'image s'adapte sans être coupée
           />
         </div>
       )}
