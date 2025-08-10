@@ -212,7 +212,7 @@ export default function Home() {
               &#9664;&#9664; {/* Double flèche gauche */}
             </button>
             <button onClick={handlePlayPause} className="control-button play-pause-button">
-              {isPlaying ? '❚❚' : '▶️'} Pause ou Play ? 
+              {isPlaying ? '❚❚' : '▶️'} Pause ou Play 
             </button>
             <button onClick={handleNextSong} className="control-button">
               &#9654;&#9654; {/* Double flèche droite */}
